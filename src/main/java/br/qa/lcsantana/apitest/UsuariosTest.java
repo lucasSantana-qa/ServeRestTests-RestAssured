@@ -5,18 +5,18 @@ import static br.qa.lcsantana.utils.Utils.*;
 
 import br.qa.lcsantana.utils.Utils;
 import io.restassured.http.ContentType;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import io.restassured.module.jsv.JsonSchemaValidator;
+import org.junit.jupiter.api.*;
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
-//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UsuariosTest {
 
     private static User user;
 
-    @BeforeClass
+    @BeforeAll
     public static void setup(){
         Utils.setupUri();
         user = createUser();
@@ -24,32 +24,21 @@ public class UsuariosTest {
 
     @Test
     public void testSearchUserById(){
-        User responseUser = given()
-                .pathParam("_id", id)
+
+         User responseUser = given()
+                .pathParam("_id", Utils.getIdResponse())
                 .when()
                 .get("usuarios/{_id}")
                 .then()
+                .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("getUsersByIdSchema.json"))
+                .body("_id", is(Utils.getIdResponse()))
+                 .statusCode(200)
                 .extract().as(User.class);
 
-        assertThat(user.getNome(), is(responseUser.getNome()));
+        assertThat(user.getNome(), is(user.getNome()));
         assertThat(user.getAdministrador(), is("true"));
         assertThat(user.getEmail(), is(responseUser.getEmail()));
         assertThat(user.getPassword(), is(responseUser.getPassword()));
-        assertThat(user.getId(), is(responseUser.getId()));
-        ;
-    }
-
-    @Test
-    public void testDeleteUser(){
-        given()
-                .pathParam("_id", id)
-                .contentType(ContentType.JSON)
-                .when()
-                .delete("/usuarios/{_id}")
-                .then()
-                .statusCode(200)
-                .body("message", is("Registro excluído com sucesso"))
-        ;
     }
 
     @Test
@@ -64,6 +53,19 @@ public class UsuariosTest {
                 .log().all()
                 .statusCode(200)
                 .body("message", is("Nenhum registro excluído"))
+        ;
+    }
+
+    @Test
+    public void testDeleteUser(){
+        given()
+                .pathParam("_id", Utils.getIdResponse())
+                .contentType(ContentType.JSON)
+                .when()
+                .delete("/usuarios/{_id}")
+                .then()
+                .statusCode(200)
+                .body("message", is("Registro excluído com sucesso"))
         ;
     }
 }

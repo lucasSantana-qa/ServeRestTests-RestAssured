@@ -1,5 +1,8 @@
 package br.qa.lcsantana;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User
 {
     private String nome;
@@ -7,21 +10,15 @@ public class User
     private String password;
     private String administrador;
 
-    private String id;
+    public User() {
+
+    }
 
     public User(String nome, String email, String password, String administrador) {
         this.nome = nome;
         this.email = email;
         this.password = password;
         this.administrador = administrador;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getNome() {
