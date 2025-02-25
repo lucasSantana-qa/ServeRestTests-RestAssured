@@ -19,12 +19,11 @@ public class UsuariosTest {
     @BeforeAll
     public static void setup(){
         Utils.setupUri();
-        user = createUser();
+        user = registerUser();
     }
 
     @Test
     public void testSearchUserById(){
-
          User responseUser = given()
                 .pathParam("_id", Utils.getIdResponse())
                 .when()
