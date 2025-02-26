@@ -1,0 +1,24 @@
+name: Testes de API
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do projeto
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '1.8.0'
+          distribution: 'oracle'
+
+      - name: Executar testes
+        run: mvn clean test
