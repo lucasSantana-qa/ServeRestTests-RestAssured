@@ -1,8 +1,8 @@
 package br.qa.lcsantana.apitest;
 
-import br.qa.lcsantana.User;
 import static br.qa.lcsantana.utils.Utils.*;
 
+import br.qa.lcsantana.core.BaseTest;
 import br.qa.lcsantana.utils.Utils;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -11,14 +11,12 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UsuariosTest {
+public class UsuariosTest extends BaseTest {
 
     private static User user;
 
     @BeforeAll
     public static void setup(){
-        Utils.setupUri();
         user = registerUser();
     }
 
