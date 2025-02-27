@@ -1,4 +1,4 @@
-package br.qa.lcsantana.core;
+package br.qa.lcsantana.apitest.core;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -21,5 +21,6 @@ public class BaseTest implements Constraints{
         resBuilder.expectResponseTime(lessThanOrEqualTo(MAX_TIMEOUT));
         responseSpecification = resBuilder.build();
 
+        enableLoggingOfRequestAndResponseIfValidationFails();
     }
 }

@@ -1,4 +1,4 @@
-package br.qa.lcsantana.core;
+package br.qa.lcsantana.apitest.core;
 
 import io.restassured.http.ContentType;
 
