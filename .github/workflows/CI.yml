@@ -2,13 +2,14 @@ name: Testes de API
 
 on:
   push:
-    branches: [master]
+    branches: [master, development]
+
   pull_request:
     branches: [master]
 
 jobs:
   api-tests:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - name: Checkout do projeto
@@ -19,6 +20,9 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
+
+      - name: Testar conexão com a API
+        run: curl -I https://serverest.dev
 
       - name: Executar testes
         run: mvn clean test
