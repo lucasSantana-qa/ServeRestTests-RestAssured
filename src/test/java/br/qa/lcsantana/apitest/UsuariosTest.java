@@ -13,15 +13,15 @@ public class UsuariosTest extends BaseTest {
 
     @BeforeAll
     public static void setupTest() {
-        Utils.registerUser();
+        Utils.cadastrarUsuario();
         Utils.login();
     }
 
     @Test
-    public void testSearchUserById(){
+    public void testBuscarUsuarioPorId(){
          User responseUser = given()
                 .pathParam("_id", Utils.getIdResponse())
-                .when()
+                 .when()
                 .get("usuarios/{_id}")
                 .then()
                 .body(JsonSchemaValidator.matchesJsonSchemaInClasspath("getUsersByIdSchema.json"))
@@ -36,22 +36,20 @@ public class UsuariosTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteNonExistentUser(){
+    public void testDeletarUsuarioNaoExistente(){
         given()
                 .contentType(ContentType.JSON)
                 .pathParam("_id", 0)
-                .log().all()
                 .when()
                 .delete("/usuarios/{_id}")
                 .then()
-                .log().all()
                 .statusCode(200)
                 .body("message", is("Nenhum registro excluído"))
         ;
     }
 
     @Test
-    public void testDeleteUser(){
+    public void testDeletarUsuarioCadastrado(){
         given()
                 .pathParam("_id", Utils.getIdResponse())
                 .contentType(ContentType.JSON)
