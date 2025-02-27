@@ -1,9 +1,7 @@
 package br.qa.lcsantana.apitest;
 
-import static br.qa.lcsantana.utils.Utils.*;
-
-import br.qa.lcsantana.core.BaseTest;
-import br.qa.lcsantana.utils.Utils;
+import br.qa.lcsantana.apitest.core.BaseTest;
+import br.qa.lcsantana.apitest.utils.Utils;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.junit.jupiter.api.*;
@@ -13,11 +11,10 @@ import static org.hamcrest.Matchers.*;
 
 public class UsuariosTest extends BaseTest {
 
-    private static User user;
-
     @BeforeAll
-    public static void setup(){
-        user = registerUser();
+    public static void setupTest() {
+        Utils.registerUser();
+        Utils.login();
     }
 
     @Test
@@ -32,10 +29,10 @@ public class UsuariosTest extends BaseTest {
                  .statusCode(200)
                 .extract().as(User.class);
 
-        assertThat(user.getNome(), is(user.getNome()));
-        assertThat(user.getAdministrador(), is("true"));
-        assertThat(user.getEmail(), is(responseUser.getEmail()));
-        assertThat(user.getPassword(), is(responseUser.getPassword()));
+        assertThat(responseUser.getNome(), is(Utils.getUser().getNome()));
+        assertThat(responseUser.getAdministrador(), is(Utils.getUser().getAdministrador()));
+        assertThat(responseUser.getEmail(), is(Utils.getUser().getEmail()));
+        assertThat(responseUser.getPassword(), is(Utils.getUser().getPassword()));
     }
 
     @Test

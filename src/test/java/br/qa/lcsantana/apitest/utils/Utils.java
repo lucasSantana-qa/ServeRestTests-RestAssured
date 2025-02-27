@@ -1,6 +1,7 @@
-package br.qa.lcsantana.utils;
+package br.qa.lcsantana.apitest.utils;
 
 import br.qa.lcsantana.apitest.User;
+import br.qa.lcsantana.apitest.core.BaseTest;
 import com.github.javafaker.Faker;
 import io.restassured.http.ContentType;
 
@@ -10,14 +11,14 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.requestSpecification;
 
-public class Utils {
+public class Utils extends BaseTest {
 
     static Faker faker = new Faker();
 
     private static User user;
     private static String idResponse;
 
-    public static User registerUser(){
+    public static void registerUser(){
          user = new User();
          user.setNome(faker.name().fullName());
          user.setEmail(faker.internet().emailAddress());
@@ -34,7 +35,6 @@ public class Utils {
                 .log().all()
                 .statusCode(201)
                 .extract().body().path("_id");
-        return user;
     }
 
     public static void login() {
@@ -64,6 +64,10 @@ public class Utils {
 
     public static String getIdResponse() {
         return idResponse;
+    }
+
+    public static User getUser() {
+        return user;
     }
 
 }

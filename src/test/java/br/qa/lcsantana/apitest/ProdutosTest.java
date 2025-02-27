@@ -1,7 +1,7 @@
 package br.qa.lcsantana.apitest;
 
-import br.qa.lcsantana.core.BaseTest;
-import br.qa.lcsantana.utils.Utils;
+import br.qa.lcsantana.apitest.core.BaseTest;
+import br.qa.lcsantana.apitest.utils.Utils;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
 import org.junit.jupiter.api.BeforeAll;
@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.*;
 public class ProdutosTest extends BaseTest {
 
     @BeforeAll
-    public static void setup() {
+    public static void setupTest() {
         Utils.registerUser();
         Utils.login();
     }
@@ -27,7 +27,7 @@ public class ProdutosTest extends BaseTest {
         product.put("descricao", "apenas um teste");
         product.put("quantidade", 1);
 
-         //cadastrar produto
+        //cadastrar produto
         String id = given()
                 .contentType(ContentType.JSON)
                 .body(product)
