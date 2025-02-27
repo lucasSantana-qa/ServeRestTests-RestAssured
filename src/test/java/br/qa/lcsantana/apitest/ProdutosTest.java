@@ -8,33 +8,34 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
-import static io.restassured.RestAssured.given;
+
+import static br.qa.lcsantana.apitest.utils.Utils.*;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class ProdutosTest extends BaseTest {
 
     @BeforeAll
     public static void setupTest() {
-        Utils.registerUser();
+        Utils.cadastrarUsuario();
         Utils.login();
     }
 
     @Test
-    public void testRegisterProduct() {
-        Map<String, Object> product = new HashMap<>();
-        product.put("nome", "Teste");
-        product.put("preco", 50000);
-        product.put("descricao", "apenas um teste");
-        product.put("quantidade", 1);
+    public void testCadastrarProdutos() {
+        Map<String, Object> PRODUCT = new HashMap<>();
+        PRODUCT.put("nome", "Teste");
+        PRODUCT.put("preco", 50000);
+        PRODUCT.put("descricao", "apenas um teste");
+        PRODUCT.put("quantidade", 1);
 
         //cadastrar produto
         String id = given()
                 .contentType(ContentType.JSON)
-                .body(product)
+                .body(PRODUCT)
                 .when()
                 .post("/produtos")
                 .then()
-                .log().all()
                 .statusCode(201)
                 .extract().path("_id");
 
@@ -45,11 +46,11 @@ public class ProdutosTest extends BaseTest {
                 .then()
                 .body("produtos.nome", hasItem("Teste"))
         ;
-        Utils.deleteProduct(id);
+        Utils.deletarProduto(id);
     }
 
     @Test
-    public void testGetProducts() {
+    public void testListarProdutos() {
         given()
                 .when()
                 .get("/produtos")
@@ -60,15 +61,15 @@ public class ProdutosTest extends BaseTest {
     }
 
     @Test
-    public void testDeleteProduct() {
-        Map<String, Object> product = getProduct("Teste delete",
+    public void testDeletarProdutoCadastrado() {
+        Map<String, Object> PRODUCT = getProduct("Teste delete",
                 50000,
                 "apenas um teste delete",
                 1);
 
         String id = given()
                 .contentType(ContentType.JSON)
-                .body(product)
+                .body(PRODUCT)
                 .when()
                 .post("/produtos")
                 .then()
@@ -89,15 +90,5 @@ public class ProdutosTest extends BaseTest {
                 .then()
                 .body("produtos.nome", hasItem(not("Teste delete")))
         ;
-    }
-
-    public Map<String, Object> getProduct(String nome, Integer preco, String descricao, Integer qtd) {
-        Map<String, Object> product = new HashMap<>();
-        product.put("nome", nome);
-        product.put("preco", preco);
-        product.put("descricao", descricao);
-        product.put("quantidade", qtd);
-
-        return product;
     }
 }
