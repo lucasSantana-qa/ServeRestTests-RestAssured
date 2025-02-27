@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Testar conexão com a API
-        run: curl -I https://sua-api.com
+        run: curl -I https://serverest.dev
 
       - name: Executar testes
         run: mvn clean test
