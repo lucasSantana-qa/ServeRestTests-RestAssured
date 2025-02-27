@@ -2,7 +2,8 @@ name: Testes de API
 
 on:
   push:
-    branches: [master]
+    branches: [master, development]
+
   pull_request:
     branches: [master]
 
@@ -19,6 +20,9 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
+
+      - name: Testar conexão com a API
+        run: curl -I https://sua-api.com
 
       - name: Executar testes
         run: mvn clean test
