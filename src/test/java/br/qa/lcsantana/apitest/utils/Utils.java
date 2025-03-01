@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
 
 public class Utils extends BaseTest {
 
@@ -35,21 +34,19 @@ public class Utils extends BaseTest {
                 .extract().body().path("_id");
     }
 
-    public static void login() {
+    public static String login() {
         Map<String, String> USER_LOGIN = new HashMap<>();
         USER_LOGIN.put("email", USER.getEmail());
         USER_LOGIN.put("password", USER.getPassword());
 
-        String TOKEN = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .body(USER_LOGIN)
                 .when()
                 .post("/login")
                 .then()
                 .statusCode(200)
-                .extract().path("authorization");
-
-        requestSpecification.header("Authorization", TOKEN);
+                .extract().path("authorization").toString();
     }
 
     public static void deletarProduto(String PRODUCT_ID) {

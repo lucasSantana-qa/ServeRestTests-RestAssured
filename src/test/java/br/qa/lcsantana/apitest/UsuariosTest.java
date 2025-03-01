@@ -11,12 +11,6 @@ import static org.hamcrest.Matchers.*;
 
 public class UsuariosTest extends BaseTest {
 
-    @BeforeAll
-    public static void setupTest() {
-        Utils.cadastrarUsuario();
-        Utils.login();
-    }
-
     @Test
     public void testBuscarUsuarioPorId(){
          User responseUser = given()
@@ -60,4 +54,6 @@ public class UsuariosTest extends BaseTest {
                 .body("message", is("Registro excluído com sucesso"))
         ;
     }
+
+
 }

@@ -4,7 +4,6 @@ import br.qa.lcsantana.apitest.core.BaseTest;
 import br.qa.lcsantana.apitest.utils.Utils;
 import io.restassured.http.ContentType;
 import io.restassured.module.jsv.JsonSchemaValidator;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,13 +12,7 @@ import static br.qa.lcsantana.apitest.utils.Utils.*;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class ProdutosTest extends BaseTest {
-
-    @BeforeAll
-    public static void setupTest() {
-        Utils.cadastrarUsuario();
-        Utils.login();
-    }
+public class ProdutosTest extends BaseTest{
 
     @Test
     public void testCadastrarProdutos() {
@@ -51,6 +44,7 @@ public class ProdutosTest extends BaseTest {
 
     @Test
     public void testListarProdutos() {
+
         given()
                 .when()
                 .get("/produtos")

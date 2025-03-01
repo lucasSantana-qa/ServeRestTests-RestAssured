@@ -25,4 +25,4 @@ jobs:
         run: curl -I https://serverest.dev
 
       - name: Executar testes
-        run: mvn clean test
+        run: mvn clean test -Dtest=SuiteApiTest
