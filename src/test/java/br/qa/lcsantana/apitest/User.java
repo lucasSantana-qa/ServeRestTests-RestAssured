@@ -1,5 +1,6 @@
 package br.qa.lcsantana.apitest;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,6 +9,9 @@ public class User {
     private String email;
     private String password;
     private String administrador;
+
+    @JsonIgnore
+    private String id;
 
     public String getNome() {
         return nome;
@@ -39,5 +43,9 @@ public class User {
 
     public void setAdministrador(String administrador) {
         this.administrador = administrador;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

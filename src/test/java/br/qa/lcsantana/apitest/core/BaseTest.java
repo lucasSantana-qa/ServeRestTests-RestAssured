@@ -3,6 +3,7 @@ package br.qa.lcsantana.apitest.core;
 import br.qa.lcsantana.apitest.utils.Utils;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 
 import static io.restassured.RestAssured.*;
@@ -31,5 +32,16 @@ public class BaseTest implements Constraints {
         responseSpecification = resBuilder.build();
 
         enableLoggingOfRequestAndResponseIfValidationFails();
+    }
+
+    @AfterAll
+    public static void tearDownTest() {
+        given()
+                .pathParam("id", Utils.getIdResponse())
+                .when()
+                .delete("/usuarios/{id}")
+                .then()
+                .statusCode(200)
+        ;
     }
 }

@@ -32,6 +32,8 @@ public class Utils extends BaseTest {
                 .then()
                 .statusCode(201)
                 .extract().body().path("_id");
+
+        USER.setId(ID_RESPONSE);
     }
 
     public static String login() {
@@ -54,7 +56,9 @@ public class Utils extends BaseTest {
                 .contentType(ContentType.JSON)
                 .pathParam("_id", PRODUCT_ID)
                 .when()
-                .delete("/produtos/{_id}");
+                .delete("/produtos/{_id}")
+                .then()
+                .statusCode(200);
     }
 
     public static String getIdResponse() {

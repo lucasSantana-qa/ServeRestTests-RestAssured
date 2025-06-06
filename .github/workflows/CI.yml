@@ -15,14 +15,8 @@ jobs:
       - name: Checkout do projeto
         uses: actions/checkout@v2
 
-      - name: Configurar Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '8'
-          distribution: 'temurin'
+      - name: Build imagem docker
+        run: docker build -t apitest-image .
 
-      - name: Testar conexão com a API
-        run: curl -I https://serverest.dev
-
-      - name: Executar testes
-        run: mvn clean test -Dtest=SuiteApiTest
+      - name: Rodar container
+        run: docker run apitest-image
