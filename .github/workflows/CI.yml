@@ -19,4 +19,4 @@ jobs:
         run: docker build -t apitest-image .
 
       - name: Rodar container
-        run: docker run apitest-image
+        run: docker run --rm apitest-image
